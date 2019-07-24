@@ -1,0 +1,15 @@
+# eden:
+#  script:
+  # - apt-get update -qy
+  # - apt-get install -y python-dev python-pip
+  # - pip install -r requirements.txt
+
+production:
+  type: deploy
+  script:
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
+  - dpl --provider=heroku --app=callix --api-key=$HEROKU_PRODUCTION_API_KEY
+  only:
+  - master
