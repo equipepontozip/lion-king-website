@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'lion_site',
 ]
 
 MIDDLEWARE = [
@@ -125,6 +126,7 @@ USE_TZ = True
 
 django_heroku.settings(locals() )# static files settings
 STATIC_URL = '/static/'
+
 # location where you will store your static files like bootstrap
 STATICFILES_DIRS = [
    os.path.join(BASE_DIR, "static"),
