@@ -3,7 +3,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  let data = {}
+  let data = []
 
   let lastKeyDown = {
     key: "",
@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     key: "",
     time: Date.now()
   };
+
 
   document.addEventListener('keydown', event => {
     const key = event.key;
@@ -42,6 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
       time: ud/1000,
       type: 'ud'
     }
+
+    data.push(ddData, udData)
 
     console.log([ddData.from, ddData.to, ddData.time, ddData.type])
     console.log([udData.from, udData.to, udData.time, udData.type])
