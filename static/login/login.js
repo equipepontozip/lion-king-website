@@ -1,17 +1,15 @@
 'use strict';
 // O time é em ms
 //
-Object.prototype.isEmpty = function() {
-    for(var key in this) {
-        if(this.hasOwnProperty(key))
-            return false;
-    }
-    return true;
-}
 
 document.addEventListener('DOMContentLoaded', () => {
 
+	window.onload = function() {
+		document.getElementById("username").focus();
+	};
+
   let data = {}
+	let pass = ""
 
   let lastKeyDown = {
     key: "",
@@ -23,13 +21,30 @@ document.addEventListener('DOMContentLoaded', () => {
     time: Date.now()
   };
 
+	document.getElementById('username').onkeypress = function(e) {
+		if (!e) e = window.event;
+		var keyCode = e.keyCode || e.which;
+		if (keyCode == '13'){
+			// Enter pressed
+			console.log(data)	
+			console.log(pass)	
+			return true;
+		}
+
+	}
+
 
   document.addEventListener('keydown', event => {
     let key = event.key.toLowerCase();
     const currentTime = Date.now();
+		pass = pass + key
 
     if(key === '.') {
       key = 'period'
+    }
+
+    if(key === 'enter') {
+      key = 'return'
     }
 
     const dd = currentTime - lastKeyDown.time;
@@ -51,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
     lastKeyDown.key = key;
     lastKeyDown.time = currentTime;
 
-    console.log(data)
     
   });
 
@@ -59,16 +73,21 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keyup', event => {
     let key = event.key.toLowerCase();
     const currentTime = Date.now();
+		pass = pass + key
 
     if(key === '.') {
       key = 'period'
+    }
+
+    if(key === 'enter') {
+      key = 'return'
     }
 
     if(lastKeyDown.key === key) {
       const hold = currentTime - lastKeyDown.time;
       const hName = `H.${key}`;
 
-      data[hName] = hold;
+			data[hName] = hold/1000;
 
     }
 
