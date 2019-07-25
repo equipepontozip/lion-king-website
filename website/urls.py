@@ -18,9 +18,10 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from lion_site.views import index
+from lion_site.views import index, facial
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index')
+    path('', index, name='index'),
+    path('facial/', facial, name='facial')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
