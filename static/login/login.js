@@ -22,9 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const dd = currentTime - lastKeyDown.time;
 
-    lastKeyDown.key = key;
-    lastKeyDown.time = currentTime;
-
     let ud = 0;
     if(lastKeyUp.time !== 0) {
       ud = currentTime - lastKeyUp.time;
@@ -44,10 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
       type: 'ud'
     }
 
-    data.push(ddData, udData)
+    if(lastKeyDown.key !== "") {
+      data.push(ddData)
+    }
 
-    console.log([ddData.from, ddData.to, ddData.time, ddData.type])
-    console.log([udData.from, udData.to, udData.time, udData.type])
+    if(lastKeyUp.key !== "") {
+      data.push(udData)
+    }
+
+    lastKeyDown.key = key;
+    lastKeyDown.time = currentTime;
+
+    console.log(data)
     
   });
 
