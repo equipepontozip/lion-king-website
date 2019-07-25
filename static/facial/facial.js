@@ -11,7 +11,6 @@ if (hasGetUserMedia()) {
   alert('getUserMedia() is not supported by your browser');
 }
 
-
 //-------------------------
 
 const hdConstraints = {
