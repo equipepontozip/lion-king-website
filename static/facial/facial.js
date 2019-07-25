@@ -1,69 +1,91 @@
 'use strict';
-// O time é em ms
 
-document.addEventListener('DOMContentLoaded', () => {
+function hasGetUserMedia() {
+  return !!(navigator.mediaDevices &&
+    navigator.mediaDevices.getUserMedia);
+}
 
-  let data = []
+if (hasGetUserMedia()) {
+  // Good to go!
+} else {
+  alert('getUserMedia() is not supported by your browser');
+}
 
-  let lastKeyDown = {
-    key: "",
-    time: Date.now()
+
+//-------------------------
+
+const hdConstraints = {
+  video: {width: {min: 1280}, height: {min: 720}}
+};
+
+navigator.mediaDevices.getUserMedia(hdConstraints).
+  then((stream) => {video.srcObject = stream});
+
+const vgaConstraints = {
+  video: {width: {exact: 640}, height: {exact: 480}}
+};
+
+navigator.mediaDevices.getUserMedia(vgaConstraints).
+  then((stream) => {video.srcObject = stream});
+
+//----------------------
+
+const videoElement = document.querySelector('video');
+const audioSelect = document.querySelector('select#audioSource');
+const videoSelect = document.querySelector('select#videoSource');
+
+navigator.mediaDevices.enumerateDevices()
+  .then(gotDevices).then(getStream).catch(handleError);
+
+audioSelect.onchange = getStream;
+videoSelect.onchange = getStream;
+
+function gotDevices(deviceInfos) {
+  for (let i = 0; i !== deviceInfos.length; ++i) {
+    const deviceInfo = deviceInfos[i];
+    const option = document.createElement('option');
+    option.value = deviceInfo.deviceId;
+    if (deviceInfo.kind === 'audioinput') {
+      option.text = deviceInfo.label ||
+        'microphone ' + (audioSelect.length + 1);
+      audioSelect.appendChild(option);
+    } else if (deviceInfo.kind === 'videoinput') {
+      option.text = deviceInfo.label || 'camera ' +
+        (videoSelect.length + 1);
+      videoSelect.appendChild(option);
+    } else {
+      console.log('Found another kind of device: ', deviceInfo);
+    }
+  }
+}
+
+function getStream() {
+  if (window.stream) {
+    window.stream.getTracks().forEach(function(track) {
+      track.stop();
+    });
+  }
+
+  const constraints = {
+    audio: {
+      deviceId: {exact: audioSelect.value}
+    },
+    video: {
+      deviceId: {exact: videoSelect.value}
+    }
   };
 
-  let lastKeyUp= {
-    key: "",
-    time: Date.now()
-  };
+  navigator.mediaDevices.getUserMedia(constraints).
+    then(gotStream).catch(handleError);
+}
 
+function gotStream(stream) {
+  window.stream = stream; // make stream available to console
+  videoElement.srcObject = stream;
+}
 
-  document.addEventListener('keydown', event => {
-    const key = event.key;
-    const currentTime = Date.now();
+function handleError(error) {
+  console.error('Error: ', error);
+}
 
-    const dd = currentTime - lastKeyDown.time;
-
-    let ud = 0;
-    if(lastKeyUp.time !== 0) {
-      ud = currentTime - lastKeyUp.time;
-    }
-
-    const ddData = {
-      from: lastKeyDown.key,
-      to: key,
-      time: dd/1000,
-      type: 'dd'
-    }
-
-    const udData = {
-      from: lastKeyUp.key,
-      to: key,
-      time: ud/1000,
-      type: 'ud'
-    }
-
-    if(lastKeyDown.key !== "") {
-      data.push(ddData)
-    }
-
-    if(lastKeyUp.key !== "") {
-      data.push(udData)
-    }
-
-    lastKeyDown.key = key;
-    lastKeyDown.time = currentTime;
-
-    console.log(data)
-    
-  });
-
-
-  document.addEventListener('keyup', event => {
-    const key = event.key;
-    const currentTime = Date.now();
-
-    lastKeyUp.key = key;
-    lastKeyUp.time = currentTime;
-    
-  });
-
-});
+//-----------------------------
