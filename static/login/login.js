@@ -28,17 +28,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const ddData = {
-      from: lastKeyDown.key,
-      to: key,
-      time: dd/1000,
-      type: 'dd'
+      "from": lastKeyDown.key,
+      "to": key,
+      "time": dd/1000,
+      "type": 'dd'
     }
 
     const udData = {
-      from: lastKeyUp.key,
-      to: key,
-      time: ud/1000,
-      type: 'ud'
+      "from": lastKeyUp.key,
+      "to": key,
+      "time": ud/1000,
+      "type": 'ud'
     }
 
     if(lastKeyDown.key !== "") {
@@ -60,6 +60,18 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keyup', event => {
     const key = event.key;
     const currentTime = Date.now();
+
+    if(lastKeyDown.key === key) {
+      const hold = currentTime - lastKeyDown.time
+      const dt = {
+        "key": key,
+        "time": hold/1000,
+        "type": "h"
+      }
+
+      data.push(dt)
+
+    }
 
     lastKeyUp.key = key;
     lastKeyUp.time = currentTime;
