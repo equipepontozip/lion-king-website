@@ -1,9 +1,17 @@
 'use strict';
 // O time é em ms
+//
+Object.prototype.isEmpty = function() {
+    for(var key in this) {
+        if(this.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  let data = []
+  let data = {}
 
   let lastKeyDown = {
     key: "",
@@ -17,36 +25,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   document.addEventListener('keydown', event => {
-    const key = event.key;
+    let key = event.key.toLowerCase();
     const currentTime = Date.now();
+
+    if(key === '.') {
+      key = 'period'
+    }
 
     const dd = currentTime - lastKeyDown.time;
 
-    let ud = 0;
-    if(lastKeyUp.time !== 0) {
-      ud = currentTime - lastKeyUp.time;
-    }
+    let ud = currentTime - lastKeyUp.time;
 
-    const ddData = {
-      "from": lastKeyDown.key,
-      "to": key,
-      "time": dd/1000,
-      "type": 'dd'
-    }
+    const ddName = `DD.${lastKeyDown.key}.${key}`;
+    const udName = `UD.${lastKeyUp.key}.${key}`;
 
-    const udData = {
-      "from": lastKeyUp.key,
-      "to": key,
-      "time": ud/1000,
-      "type": 'ud'
-    }
 
     if(lastKeyDown.key !== "") {
-      data.push(ddData)
+      data[ddName] = dd/1000 
     }
 
     if(lastKeyUp.key !== "") {
-      data.push(udData)
+      data[udName] = ud/1000 
     }
 
     lastKeyDown.key = key;
@@ -58,18 +57,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   document.addEventListener('keyup', event => {
-    const key = event.key;
+    let key = event.key.toLowerCase();
     const currentTime = Date.now();
 
-    if(lastKeyDown.key === key) {
-      const hold = currentTime - lastKeyDown.time
-      const dt = {
-        "key": key,
-        "time": hold/1000,
-        "type": "h"
-      }
+    if(key === '.') {
+      key = 'period'
+    }
 
-      data.push(dt)
+    if(lastKeyDown.key === key) {
+      const hold = currentTime - lastKeyDown.time;
+      const hName = `H.${key}`;
+
+      data[hName] = hold;
 
     }
 
