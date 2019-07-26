@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from lion_site.views import index
+from django.conf import settings
+from django.conf.urls.static import static
+
+from lion_site.views import index, facial, keystroke
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index')
-]
+    path('', index, name='index'),
+    path('facial/', facial, name='facial')
+    path('keystroke/', keystroke, name='keystroke')
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
