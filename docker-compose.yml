@@ -7,3 +7,12 @@ services:
       - .:/code
     ports:
       - 8000:8000
+    environment:
+      API: "http://api:5000/"
+    networks:
+      - lion-king-api_lion
+
+networks:
+  lion-king-api_lion:
+    external: true
+

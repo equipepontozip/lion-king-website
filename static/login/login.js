@@ -1,9 +1,39 @@
 'use strict';
 // O time é em ms
+//
+//
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  let data = []
+	window.onload = function() {
+		document.getElementById("username").focus();
+	};
+
+
+  let data = {}
+	let pass = ""
+
+  function check() {
+
+    const url = "/keystroke/";
+    const other_params = {
+      headers : { 
+        "Content-Type": "application/json"
+      },
+      body : JSON.stringify(data),
+      method : "POST",
+    };
+
+    fetch(url, other_params)
+      .then(response => console.log('Sucess:', JSON.stringify(response)))
+      .catch(error => console.log('Error', error))
+
+    return false;
+  }
+
+  document.getElementById('formlogin').onsubmit = check
+
 
   let lastKeyDown = {
     key: "",
@@ -15,55 +45,79 @@ document.addEventListener('DOMContentLoaded', () => {
     time: Date.now()
   };
 
+  document.getElementById('username').onkeypress = function(e) {
+    if (!e) e = window.event;
+    var keyCode = e.keyCode || e.which;
+    if (keyCode == '13'){
+			// Enter pressed
+			console.log(data)	
+			return true;
+		}
+
+	}
+
 
   document.addEventListener('keydown', event => {
-    const key = event.key;
+    let key = event.key.toLowerCase();
     const currentTime = Date.now();
+		pass = pass + key
+
+    if(key === '.') {
+      key = 'period'
+    }
+
+    if(key === 'enter') {
+      key = 'return'
+    }
 
     const dd = currentTime - lastKeyDown.time;
 
-    let ud = 0;
-    if(lastKeyUp.time !== 0) {
-      ud = currentTime - lastKeyUp.time;
-    }
+    let ud = currentTime - lastKeyUp.time;
 
-    const ddData = {
-      from: lastKeyDown.key,
-      to: key,
-      time: dd/1000,
-      type: 'dd'
-    }
+    const ddName = `DD.${lastKeyDown.key}.${key}`;
+    const udName = `UD.${lastKeyUp.key}.${key}`;
 
-    const udData = {
-      from: lastKeyUp.key,
-      to: key,
-      time: ud/1000,
-      type: 'ud'
-    }
 
     if(lastKeyDown.key !== "") {
-      data.push(ddData)
+      data[ddName] = dd/1000 
     }
 
     if(lastKeyUp.key !== "") {
-      data.push(udData)
+      data[udName] = ud/1000 
     }
 
     lastKeyDown.key = key;
     lastKeyDown.time = currentTime;
 
-    console.log(data)
     
   });
 
 
   document.addEventListener('keyup', event => {
-    const key = event.key;
+    let key = event.key.toLowerCase();
     const currentTime = Date.now();
+		pass = pass + key
+
+    if(key === '.') {
+      key = 'period'
+    }
+
+    if(key === 'enter') {
+      key = 'return'
+    }
+
+    if(lastKeyDown.key === key) {
+      const hold = currentTime - lastKeyDown.time;
+      const hName = `H.${key}`;
+
+			data[hName] = hold/1000;
+
+    }
 
     lastKeyUp.key = key;
     lastKeyUp.time = currentTime;
     
   });
+
 
 });
