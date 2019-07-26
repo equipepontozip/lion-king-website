@@ -33,11 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(usr)
         if(res.classification === usr){
           const url = '/after_login'
-          // window.location.replace(url)
+          window.location.replace(url)
         }
         else {
           const face = '/face'
-          // window.location.replace(face)
+          window.location.replace(face)
         }
       })
       .catch(error => {
@@ -72,8 +72,13 @@ document.addEventListener('DOMContentLoaded', () => {
           let pathname = window.location.pathname;
           let usr = pathname.split("/password/")[1]
 
-
           await keystroke(usr)
+
+        }
+        else {
+          alert("Senha incorreta")
+          let pathname = window.location.pathname;
+          window.location.replace(pathname)
 
         }
 
