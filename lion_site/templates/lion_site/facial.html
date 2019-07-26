@@ -23,7 +23,7 @@
             <img src="">
             <canvas style="display:none;"></canvas>
             
-            <p><button id="screenshot-button" class="capture-button">Take screenshot</button></p>
+            <p><button id="screenshot-button" class="capture-button">Enviar Foto</button></p>
           </div>
 
 </body>
@@ -73,10 +73,11 @@
     data.append('file', img)
     data.append('user', 'hubot')
 
-    fetch('http://api:5000/face/', {
+    fetch('http://0.0.0.0:5000/face/', {
       mode: 'cors',
       headers: {
-        'Access-Control-Allow-Origin':'*'
+        "Access-Control-Allow-Origin":"*",
+        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
       },
       method: 'POST',
       body: data
