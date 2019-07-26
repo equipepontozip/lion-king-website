@@ -30,6 +30,21 @@
           </div>
 
 </body>
+    <script>
+        const constraints = {
+          video: true
+        };
+        console.log('html constraints:')
+        console.log(constraints)
+        
+        const video = document.querySelector('video');
+        console.log('video constraints:')
+        console.log(video)
+        
+        navigator.mediaDevices.getUserMedia(constraints).
+          then((stream) => {video.srcObject = stream});
+    </script>
+
 <script>
     const captureVideoButton =
       document.querySelector('#screenshot .capture-button');

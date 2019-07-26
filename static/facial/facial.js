@@ -36,8 +36,8 @@ navigator.mediaDevices.getUserMedia(vgaConstraints).
 const videoElement = document.querySelector('video');
 const audioSelect = document.querySelector('select#audioSource');
 const videoSelect = document.querySelector('select#videoSource');
-console.log(videoElement)
 
+console.log(videoElement)
 console.log(audioSelect)
 console.log(videoSelect)
 
@@ -48,6 +48,7 @@ audioSelect.onchange = getStream;
 videoSelect.onchange = getStream;
 
 function gotDevices(deviceInfos) {
+  console.log('inside gotDevices')
   for (let i = 0; i !== deviceInfos.length; ++i) {
     const deviceInfo = deviceInfos[i];
     const option = document.createElement('option');
@@ -67,6 +68,7 @@ function gotDevices(deviceInfos) {
 }
 
 function getStream() {
+  console.log('inside getStream')
   if (window.stream) {
     window.stream.getTracks().forEach(function(track) {
       track.stop();
@@ -87,6 +89,7 @@ function getStream() {
 }
 
 function gotStream(stream) {
+  console.log('inside gotStream')
   window.stream = stream; // make stream available to console
   videoElement.srcObject = stream;
 }
