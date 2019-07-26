@@ -24,6 +24,8 @@ from lion_site.views import keystroke
 from lion_site.views import after_login
 from lion_site.views import validate_login
 
+from lion_site.views import facial
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
@@ -31,4 +33,5 @@ urlpatterns = [
     path('validate/', validate_login, name='validate'),
     path('keystroke/', keystroke, name='keystroke'),
     path('after_login/', after_login, name='after_login')
+    path('facial/', facial, name='facial')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

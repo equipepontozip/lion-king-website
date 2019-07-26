@@ -11,13 +11,14 @@ from django.views.decorators.csrf import csrf_exempt
 def index(request):
     return render(request, 'lion_site/login.html')
 
-
 @csrf_exempt
 def password(request, user):
     print(user)
 
     return render(request, 'lion_site/password.html')
 
+def facial(request):
+    return render(request, 'lion_site/facial.html')
 
 @csrf_exempt
 def keystroke(request):
