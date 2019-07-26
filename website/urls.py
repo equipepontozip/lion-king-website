@@ -18,11 +18,20 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from lion_site.views import index, facial, keystroke
+from lion_site.views import index
+from lion_site.views import password
+from lion_site.views import keystroke
+from lion_site.views import after_login
+from lion_site.views import validate_login
+
+from lion_site.views import facial
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
+    path('password/<str:user>', password, name='password'),
+    path('validate/', validate_login, name='validate'),
+    path('keystroke/', keystroke, name='keystroke'),
+    path('after_login/', after_login, name='after_login')
     path('facial/', facial, name='facial')
-    path('keystroke/', keystroke, name='keystroke')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
