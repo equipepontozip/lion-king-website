@@ -71,9 +71,9 @@
 
     var data = new FormData()
     data.append('file', img)
-    data.append('user', 'hubot')
+    //data.append('user', 'hubot')
 
-    fetch('http://0.0.0.0:5000/face/', {
+    fetch('/file_send/', {
       mode: 'cors',
       headers: {
         "Access-Control-Allow-Origin":"*",
