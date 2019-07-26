@@ -67,7 +67,23 @@
     img.src = canvas.toDataURL('image/webp');
     console.log(img)
     // codigo de enviar pra API 
+    //var input = document.querySelector('input[type="file"]')
 
+    var data = new FormData()
+    data.append('file', img)
+    data.append('user', 'hubot')
+
+    fetch('http://api:5000/face/', {
+      mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin':'*'
+      },
+      method: 'POST',
+      body: data
+      })
+      .then(response => response.json())
+      .then(data => {console.log("show");console.log(data)
+    }).catch(handleError);
 
   };
   
