@@ -1,6 +1,8 @@
 'use strict';
 // O time é em ms
 //
+//
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -8,8 +10,30 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById("username").focus();
 	};
 
+
   let data = {}
 	let pass = ""
+
+  function check() {
+
+    const url = "/keystroke/";
+    const other_params = {
+      headers : { 
+        "Content-Type": "application/json"
+      },
+      body : JSON.stringify(data),
+      method : "POST",
+    };
+
+    fetch(url, other_params)
+      .then(response => console.log('Sucess:', JSON.stringify(response)))
+      .catch(error => console.log('Error', error))
+
+    return false;
+  }
+
+  document.getElementById('formlogin').onsubmit = check
+
 
   let lastKeyDown = {
     key: "",
@@ -21,13 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
     time: Date.now()
   };
 
-	document.getElementById('username').onkeypress = function(e) {
-		if (!e) e = window.event;
-		var keyCode = e.keyCode || e.which;
-		if (keyCode == '13'){
+  document.getElementById('username').onkeypress = function(e) {
+    if (!e) e = window.event;
+    var keyCode = e.keyCode || e.which;
+    if (keyCode == '13'){
 			// Enter pressed
 			console.log(data)	
-			console.log(pass)	
 			return true;
 		}
 
@@ -95,5 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
     lastKeyUp.time = currentTime;
     
   });
+
 
 });
