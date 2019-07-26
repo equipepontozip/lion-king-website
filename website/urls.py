@@ -23,6 +23,6 @@ from lion_site.views import index, facial, keystroke
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
-    path('facial/', facial, name='facial')
+    path('facial/', facial, name='facial'),
     path('keystroke/', keystroke, name='keystroke')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
