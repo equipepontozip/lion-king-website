@@ -1,16 +1,20 @@
 'use strict';
 
+document.addEventListener('DOMContentLoaded', () => {
+
 function hasGetUserMedia() {
+  console.log('checking user')
   return !!(navigator.mediaDevices &&
     navigator.mediaDevices.getUserMedia);
 }
 
 if (hasGetUserMedia()) {
+  console.log('got user!')
   // Good to go!
 } else {
   alert('getUserMedia() is not supported by your browser');
 }
-
+//**
 //-------------------------
 
 const hdConstraints = {
@@ -27,11 +31,15 @@ const vgaConstraints = {
 navigator.mediaDevices.getUserMedia(vgaConstraints).
   then((stream) => {video.srcObject = stream});
 
-//----------------------
+// //----------------------
 
 const videoElement = document.querySelector('video');
 const audioSelect = document.querySelector('select#audioSource');
 const videoSelect = document.querySelector('select#videoSource');
+console.log(videoElement)
+
+console.log(audioSelect)
+console.log(videoSelect)
 
 navigator.mediaDevices.enumerateDevices()
   .then(gotDevices).then(getStream).catch(handleError);
@@ -87,4 +95,6 @@ function handleError(error) {
   console.error('Error: ', error);
 }
 
-//-----------------------------
+// //-----------------------------
+
+});
