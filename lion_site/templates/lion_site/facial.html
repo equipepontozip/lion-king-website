@@ -40,16 +40,25 @@ console.log('video constraints:')
 console.log(video)
     const constraints = {
           video: true,
-          audio: true
+          audio: false
         };
 console.log('html constraints:')
 console.log(constraints)
       
-        navigator.mediaDevices.getUserMedia(constraints).
-          then((stream) => {video.srcObject = stream});
-    const captureVideoButton =
-      document.querySelector('#screenshot .capture-button');
+function handleSuccess(stream) {
+      screenshotButton.disabled = false;
+      video.srcObject = stream;
+    }
+
+    function handleError(error) {
+      console.error('inside handleError')
+      console.error('Error: ', error);
+    }
+
+    navigator.mediaDevices.getUserMedia(constraints).
+      then((stream) => {video.srcObject = stream});
     
+    const captureVideoButton = document.querySelector('#screenshot .capture-button');
     const canvas = document.createElement('canvas');
     
     captureVideoButton.onclick = function() {
@@ -65,9 +74,5 @@ console.log(constraints)
       img.src = canvas.toDataURL('image/webp');
     };
     
-    function handleSuccess(stream) {
-      screenshotButton.disabled = false;
-      video.srcObject = stream;
-    }
-
+    
     </script>
