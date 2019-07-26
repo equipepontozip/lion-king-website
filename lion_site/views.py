@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 from django.http import HttpResponse
 
 from django.shortcuts import render
@@ -11,7 +12,7 @@ def index(request):
 
 @csrf_exempt
 def keystroke(request):
-    res = requests.post("http://api:5000/keystroke", json=json.loads(request.body.decode('utf-8')))
+    res = requests.post(os.environ.get('API') + 'keystroke', json=json.loads(request.body.decode('utf-8')))
     print(res.content)
 
     return HttpResponse(res, status=res.status_code)
