@@ -32,6 +32,6 @@ urlpatterns = [
     path('password/<str:user>', password, name='password'),
     path('validate/', validate_login, name='validate'),
     path('keystroke/', keystroke, name='keystroke'),
-    path('after_login/', after_login, name='after_login')
+    path('after_login/', after_login, name='after_login'),
     path('facial/', facial, name='facial')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

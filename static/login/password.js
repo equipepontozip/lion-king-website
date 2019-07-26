@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
           window.location.replace(url)
         }
         else {
-          const face = '/face'
+          const face = '/facial'
           window.location.replace(face)
         }
       })
