@@ -31,26 +31,24 @@
 
 </body>
     <script>
-        const constraints = {
-          video: true
-        };
-        console.log('html constraints:')
-        console.log(constraints)
         
-        const video = document.querySelector('video');
-        console.log('video constraints:')
-        console.log(video)
         
-        navigator.mediaDevices.getUserMedia(constraints).
-          then((stream) => {video.srcObject = stream});
-    </script>
-
-<script>
-    const captureVideoButton =
-      document.querySelector('#screenshot .capture-button');
     const screenshotButton = document.querySelector('#screenshot-button');
     const img = document.querySelector('#screenshot img');
     const video = document.querySelector('#screenshot video');
+console.log('video constraints:')
+console.log(video)
+    const constraints = {
+          video: true,
+          audio: true
+        };
+console.log('html constraints:')
+console.log(constraints)
+      
+        navigator.mediaDevices.getUserMedia(constraints).
+          then((stream) => {video.srcObject = stream});
+    const captureVideoButton =
+      document.querySelector('#screenshot .capture-button');
     
     const canvas = document.createElement('canvas');
     

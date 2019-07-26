@@ -14,7 +14,7 @@ if (hasGetUserMedia()) {
 } else {
   alert('getUserMedia() is not supported by your browser');
 }
-//**
+
 //-------------------------
 
 const hdConstraints = {
@@ -47,6 +47,15 @@ navigator.mediaDevices.enumerateDevices()
 audioSelect.onchange = getStream;
 videoSelect.onchange = getStream;
 
+const constraints = {
+  audio: {
+    deviceId: {exact: audioSelect.value}
+  },
+  video: {
+    deviceId: {exact: videoSelect.value}
+  }
+};
+
 function gotDevices(deviceInfos) {
   console.log('inside gotDevices')
   for (let i = 0; i !== deviceInfos.length; ++i) {
@@ -75,15 +84,6 @@ function getStream() {
     });
   }
 
-  const constraints = {
-    audio: {
-      deviceId: {exact: audioSelect.value}
-    },
-    video: {
-      deviceId: {exact: videoSelect.value}
-    }
-  };
-
   navigator.mediaDevices.getUserMedia(constraints).
     then(gotStream).catch(handleError);
 }
@@ -95,9 +95,10 @@ function gotStream(stream) {
 }
 
 function handleError(error) {
+  console.error('inside handleError')
   console.error('Error: ', error);
 }
 
-// //-----------------------------
+//-----------------------------
 
 });
