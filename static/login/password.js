@@ -13,9 +13,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let data = {}
 
+  function keystroke(usr) {
+
+    const url = "/keystroke/";
+    let res;
+    const other_params = {
+      headers : { 
+        "Content-Type": "application/json"
+      },
+      body : JSON.stringify(data),
+      method : "POST",
+    };
+
+    fetch(url, other_params)
+      .then(async response => {
+        res = await response.json()
+
+        console.log(res.classification)
+        console.log(usr)
+        if(res.classification === usr){
+          const url = '/after_login'
+          // window.location.replace(url)
+        }
+        else {
+          const face = '/face'
+          // window.location.replace(face)
+        }
+      })
+      .catch(error => {
+        console.log('Error', error)
+        res = false;
+
+      })
+
+    return res;
+  }
+
+
   function check() {
     const password = document.getElementById('password').value
-    console.log(password)
 
     const url = "/validate/";
     const other_params = {
@@ -26,18 +62,19 @@ document.addEventListener('DOMContentLoaded', () => {
       method : "POST",
     };
 
+
+
     fetch(url, other_params)
       .then(async response => {
 
         const val = await response.json()
-        console.log(val)
         if(val['valide'] == 'true') {
-          const url = '/after_login'
-          window.location.replace(url);
-        }
-        else {
-          const faceurl = '/face'
-          window.location.replace(faceurl)
+          let pathname = window.location.pathname;
+          let usr = pathname.split("/password/")[1]
+
+
+          await keystroke(usr)
+
         }
 
       })
@@ -45,24 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return false;
 
-  }
-
-  function keystroke() {
-
-    const url = "/keystroke/";
-    const other_params = {
-      headers : { 
-        "Content-Type": "application/json"
-      },
-      body : JSON.stringify(data),
-      method : "POST",
-    };
-
-    fetch(url, other_params)
-      .then(response => console.log('Sucess:', JSON.stringify(response)))
-      .catch(error => console.log('Error', error))
-
-    return false;
   }
 
   document.getElementById('formlogin').onsubmit = check
@@ -85,10 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var password = document.getElementById('password').value;
 
     if (keyCode == '13'){
-      data['password'] = password
-
 			// Enter pressed
-			console.log(data)	
 			return true;
 		}
 

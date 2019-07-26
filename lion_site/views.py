@@ -3,7 +3,7 @@ import json
 import os
 from django.http import HttpResponse
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -24,7 +24,7 @@ def keystroke(request):
     res = requests.post(os.environ.get('API') + 'keystroke', json=json.loads(request.body.decode('utf-8')))
     classification = json.loads(res.content)
 
-    return redirect('after_login')
+    return  HttpResponse(json.dumps({'classification': classification['classification']}), content_type="application/json", status=200)
 
 @csrf_exempt
 def validate_login(request):
